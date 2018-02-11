@@ -1,0 +1,33 @@
+  <table>
+    <tr>
+      <td>Business Unit <input type="text" name = "business_name"> &nbsp; &nbsp; &nbsp;</td>
+      <td>Timesheet Name <input type="text" name ="timesheet_name">&nbsp; &nbsp; &nbsp;</td>
+      <td>Timesheet Id <input type="text" name = "timesheet_id">&nbsp; &nbsp; &nbsp;</td>
+      <td>Work/Pay group <input type="text" name = "work_group">&nbsp; &nbsp; &nbsp;</td>
+    </tr>&nbsp; &nbsp; &nbsp;
+    <tr>
+      <td>Month <%= select_month(Date.today) %>&nbsp; &nbsp; &nbsp;</td>
+      <td>Year <%= select_year(Date.today, :start_year => Date.today.year, :end_year => Date.today.year-15) %>&nbsp; &nbsp; &nbsp;</td>
+      <td>Time Period <input type="text" name = "time_period">&nbsp; &nbsp; &nbsp;</td>
+      <td>Payroll Center <input type="text" name = "payroll_name">&nbsp; &nbsp; &nbsp;</td>
+    </tr>
+  </table>
+  <%= button_to "Search", timesheet_index_path, method: 'get'%><br><br>
+<table class = "data" style="width:100%">
+  <tr>
+    <th>Select <input type="checkbox"></th>
+    <th>Associate Name</th>
+    <th>Associate Id</th>
+    <th>Assignment Id</th>
+    <th>Time sheet status</th>
+    <th>Charge code</th>
+    <th>Mon<br><%= Time.now.at_beginning_of_week.strftime("%d/%m") %></th>
+    <th>Tues<br><%= (Time.now.at_beginning_of_week+1.day).strftime("%d/%m") %></th>
+    <th>Wed<br><%= (Time.now.at_beginning_of_week+2.day).strftime("%d/%m") %></th>
+    <th>Thur<br><%= (Time.now.at_beginning_of_week+3.day).strftime("%d/%m") %></th>
+    <th>Fri<br><%= (Time.now.at_beginning_of_week+4.day).strftime("%d/%m") %></th>
+    <th>Sat<br><%= (Time.now.at_beginning_of_week+5.day).strftime("%d/%m") %></th>
+    <th>Sun<br><%= (Time.now.at_beginning_of_week+6.day).strftime("%d/%m") %></th>
+    <th>Total</th>
+</table><br>
+<input type="button" value = "export excel sheet">
