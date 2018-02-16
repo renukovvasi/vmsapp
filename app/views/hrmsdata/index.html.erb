@@ -1,0 +1,64 @@
+<div class = container3 >
+  <table>
+    <tr>
+      <td></td>
+      <td>
+        <%= form_tag import_hrmsdata_path, multipart: true do %>
+          <div class="col-sm-offset-2 col-sm-8">
+            <%= file_field_tag :file %>
+            <%= submit_tag "Import" %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <table class = table2>
+        <tr>
+          <th>Associate Name</th>
+          <th>Associate Id</th>
+          <th>Assignment Id</th>
+          <th>Job Title</th>
+          <th>Job Id</th>
+          <th>Business Id</th>
+          <th>Client Id</th>
+          <th>Work group</th>
+          <th>Cust Id</th>
+          <th>Mon</th>
+          <th>Tues</th>
+          <th>Wed</th>
+          <th>Thur</th>
+          <th>Fri</th>
+          <th>Sat</th>
+          <th>Sun</th>
+          <th>Total hours</th>
+          <th>Pay Status</th>
+        </tr>
+        <% if @list.present? %>
+          <% @list.each do |i| %>
+            <tr>
+              <td><%= i.associate_name %></td>
+              <td><%= i.associate_id %></td>
+              <td><%= i.assignment_id %></td>
+              <td><%= i.job_title %></td>
+              <td><%= i.jon_id %></td>
+              <td><%= i.business_id %></td>
+              <td><%= i.client_id %></td>
+              <td></td>
+              <td><%= i.work_group %></td>
+              <td><%= i.hours %></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><%= i.pay_status %></td>
+            </tr>
+            <% end %>
+          <% end %>
+        </tr>
+      </table>
+    </tr>
+  </table>
+</div>

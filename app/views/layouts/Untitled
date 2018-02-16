@@ -1,0 +1,52 @@
+  <head>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+			<script type="text/javascript">
+			</script>
+	</head>
+  <table style="width:100%">
+    <tr>
+      <td>Business Unit <input type="text" name = "business_name"> &nbsp; &nbsp; &nbsp;</td>
+      <td>Timesheet Id<input type="text" name = "timesheet_id">&nbsp; &nbsp; &nbsp;</td>
+      <td>Assignment Id<input type="text" name = "assignment_id">&nbsp; &nbsp; &nbsp;</td>
+      <td>Work/Pay group <input type="text" name = "work_group">&nbsp; &nbsp; &nbsp;</td>
+    </tr>&nbsp; &nbsp; &nbsp;
+    <tr>
+      <td>Payroll Center <input type="text" name = "payroll_name">&nbsp; &nbsp; &nbsp;</td>
+      <td> Associate Id <input type="text" name = "payroll_name">&nbsp; &nbsp; &nbsp;</td>
+      <td>Time Period <input type = "Date" name = "period">&nbsp; &nbsp; &nbsp;</td>
+    </tr>
+  </table>
+  <%= button_to "Search", timesheet_index_path, method: 'get'%><br><br>
+  <table class = "data" style="width:100%">
+  <tr>
+    <th>Select <input type="checkbox"></th>
+    <th>Associate Name</th>
+    <th>Associate Id</th>
+    <th>Assignment Id</th>
+    <th>Time sheet status</th>
+    <th>Charge code</th>
+    <th>Mon<br><%= Time.now.at_beginning_of_week.strftime("%d/%m") %></th>
+    <th>Tues<br><%= (Time.now.at_beginning_of_week+1.day).strftime("%d/%m") %></th>
+    <th>Wed<br><%= (Time.now.at_beginning_of_week+2.day).strftime("%d/%m") %></th>
+    <th>Thur<br><%= (Time.now.at_beginning_of_week+3.day).strftime("%d/%m") %></th>
+    <th>Fri<br><%= (Time.now.at_beginning_of_week+4.day).strftime("%d/%m") %></th>
+    <th>Sat<br><%= (Time.now.at_beginning_of_week+5.day).strftime("%d/%m") %></th>
+    <th>Sun<br><%= (Time.now.at_beginning_of_week+6.day).strftime("%d/%m") %></th>
+    <th>Total</th>
+  </tr>
+  <% if (@times != nil) then %>
+     <tr>
+       <td></td>
+       <td><%= @times.first.timesheet_name%> </td>
+       <td><%= @times.first.timesheet_id %></td>
+      </tr>
+   <% end %>
+</table><br>
+<input type="button" value = "export excel sheet">
+
+  <div class="form-group">
+    <label for="password" class="col-sm-4 control-label">Password</label>
+    <div class="col-sm-5">
+      <input type="password" id="password" name="password" class="form-control" />
+    </div>
+  </div>

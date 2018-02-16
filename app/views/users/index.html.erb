@@ -1,33 +1,102 @@
-  <table>
-    <tr>
-      <td>Business Unit <input type="text" name = "business_name"> &nbsp; &nbsp; &nbsp;</td>
-      <td>Timesheet Name <input type="text" name ="timesheet_name">&nbsp; &nbsp; &nbsp;</td>
-      <td>Timesheet Id <input type="text" name = "timesheet_id">&nbsp; &nbsp; &nbsp;</td>
-      <td>Work/Pay group <input type="text" name = "work_group">&nbsp; &nbsp; &nbsp;</td>
-    </tr>&nbsp; &nbsp; &nbsp;
-    <tr>
-      <td>Month <%= select_month(Date.today) %>&nbsp; &nbsp; &nbsp;</td>
-      <td>Year <%= select_year(Date.today, :start_year => Date.today.year, :end_year => Date.today.year-15) %>&nbsp; &nbsp; &nbsp;</td>
-      <td>Time Period <input type="text" name = "time_period">&nbsp; &nbsp; &nbsp;</td>
-      <td>Payroll Center <input type="text" name = "payroll_name">&nbsp; &nbsp; &nbsp;</td>
-    </tr>
-  </table>
-  <%= button_to "Search", timesheet_index_path, method: 'get'%><br><br>
-<table class = "data" style="width:100%">
-  <tr>
-    <th>Select <input type="checkbox"></th>
-    <th>Associate Name</th>
-    <th>Associate Id</th>
-    <th>Assignment Id</th>
-    <th>Time sheet status</th>
-    <th>Charge code</th>
-    <th>Mon<br><%= Time.now.at_beginning_of_week.strftime("%d/%m") %></th>
-    <th>Tues<br><%= (Time.now.at_beginning_of_week+1.day).strftime("%d/%m") %></th>
-    <th>Wed<br><%= (Time.now.at_beginning_of_week+2.day).strftime("%d/%m") %></th>
-    <th>Thur<br><%= (Time.now.at_beginning_of_week+3.day).strftime("%d/%m") %></th>
-    <th>Fri<br><%= (Time.now.at_beginning_of_week+4.day).strftime("%d/%m") %></th>
-    <th>Sat<br><%= (Time.now.at_beginning_of_week+5.day).strftime("%d/%m") %></th>
-    <th>Sun<br><%= (Time.now.at_beginning_of_week+6.day).strftime("%d/%m") %></th>
-    <th>Total</th>
-</table><br>
-<input type="button" value = "export excel sheet">
+  <div class = "container2">
+    <head>
+		  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+			  <script type="text/javascript">
+			</script>
+	  </head>
+	  <table>
+	    <tr>
+	      <div class ="table1">
+	      <%= form_tag timesheet_index_path, method: 'get' do |f| %>
+	        <table style = "width: 100%">
+	          <tr>
+              <td>Timesheet Name</td><td><%= text_field_tag :timesheet_name, params[:timesheet_name] %></td>
+              <td>Timesheet Id</td><td><%= text_field_tag :timesheet_id, params[:timesheet_id] %></td>
+              <td>Assignment Id</td><td><%= text_field_tag :assignment_id, params[:assignment_id]%></td>
+              <td>Work Group</td><td><%= text_field_tag :work_group, params[:work_group] %></br></td>
+            </tr>
+            <tr>
+              <td>Payroll Name</td><td><%= text_field_tag :payroll_name, params[:payroll_name] %></td>
+              <td>Associate Id</td><td><%= text_field_tag :associate_id, params[:associate_id]%></td>
+              <td>Time Period</td><td><%= date_field_tag :date, params[:date]%></td>
+            </tr>
+            <tr>
+              <td></td><td></td><td></td><td><%= submit_tag "Search"%></td>
+            </tr>
+          </table>
+      </tr>
+        <% end %>
+        </div>
+      <tr>
+        <table class = "table2" role="grid">
+          <tr>
+            <th>Select <input type="checkbox"></th>
+            <th>Associate Name</th>
+            <th>Associate Id</th>
+            <th>Assignment Id</th>
+            <th>Time sheet status</th>
+            <th>Charge code</th>
+          <% if @date.present? %>
+            <th>Mon<br><%= @date.at_beginning_of_week.strftime("%d/%m") %></th>
+            <th>Tues<br><%= (@date.at_beginning_of_week+1.day).strftime("%d/%m") %></th>
+            <th>Wed<br><%= (@date.at_beginning_of_week+2.day).strftime("%d/%m") %></th>
+            <th>Thur<br><%= (@date.at_beginning_of_week+3.day).strftime("%d/%m") %></th>
+            <th>Fri<br><%= (@date.at_beginning_of_week+4.day).strftime("%d/%m") %></th>
+            <th>Sat<br><%= (@date.at_beginning_of_week+5.day).strftime("%d/%m") %></th>
+            <th>Sun<br><%= (@date.at_beginning_of_week+6.day).strftime("%d/%m") %></th>
+            <th>Total</th>
+          <%else%>
+            <th>Mon<br><%= Time.now.at_beginning_of_week.strftime("%d/%m") %></th>
+            <th>Tues<br><%= (Time.now.at_beginning_of_week+1.day).strftime("%d/%m") %></th>
+            <th>Wed<br><%= (Time.now.at_beginning_of_week+2.day).strftime("%d/%m") %></th>
+            <th>Thur<br><%= (Time.now.at_beginning_of_week+3.day).strftime("%d/%m") %></th>
+            <th>Fri<br><%= (Time.now.at_beginning_of_week+4.day).strftime("%d/%m") %></th>
+            <th>Sat<br><%= (Time.now.at_beginning_of_week+5.day).strftime("%d/%m") %></th>
+            <th>Sun<br><%= (Time.now.at_beginning_of_week+6.day).strftime("%d/%m") %></th>
+            <th>Total</th>
+          <% end %>
+          </tr>
+            <% if  @associates.present? %>
+              <% while @i < @associates.count do %>
+                  <%  while @j < @associates.count do %>
+                    <% if @associates[@i].emp_id == @associates[@j+1] && @associates[@i].assignment_id == @associates[@j+1].assignment_id && @associates[@i].codecharge == @associates[@j+1].codecharge %>
+                      <% @j += 1 %>
+                      <% @i += 1 %>
+                    <% else %>
+                    <tr>
+                      <% @i += 1 %>
+                      <% @j += 1 %>
+                      <% if @j+1 < @associates.count %>
+                        <td><input type="checkbox"></td>
+                        <td><%= @associates[@i].name %></td>
+                        <td><%= @associates[@i].emp_id %></td>
+                        <td><%= @associates[@i].assignment_id %></td>
+                        <td></td>
+                        <td><%= @associates[@i].codecharge %></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      <% end %>
+                      <% break %>
+                    </tr>
+                    <%end%>
+                <% end %>
+              <% end %>
+            <% end %>
+        </table>
+        <div class = "export">
+          <table id = "export">
+            <tr></tr>
+            <tr>
+             <td></td><td><input type="button" value = "Export excel sheet" ></td>
+            </tr>
+          </table>
+        </div>
+      </tr>  
+    </table>
+</div>

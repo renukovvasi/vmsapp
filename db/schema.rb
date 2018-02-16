@@ -10,14 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180211182241) do
+ActiveRecord::Schema.define(version: 20180215183346) do
+
+  create_table "assignments", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "associates", force: :cascade do |t|
     t.string "name"
-    t.integer "assignment_id"
-    t.integer "charge_code"
-    t.integer "hours_worked"
+    t.integer "codecharge"
     t.datetime "date"
+    t.integer "hours"
+    t.integer "assignment_id"
+    t.integer "timesheet_id"
+    t.integer "emp_id"
+  end
+
+  create_table "hrmsdata", force: :cascade do |t|
+    t.string "associate_name"
+    t.integer "associate_id"
+    t.integer "assignment_id"
+    t.string "job_title"
+    t.integer "jon_id"
+    t.integer "business_id"
+    t.integer "client_id"
+    t.string "work_group"
+    t.integer "hours"
+    t.string "pay_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "timesheets", force: :cascade do |t|
@@ -32,6 +55,8 @@ ActiveRecord::Schema.define(version: 20180211182241) do
     t.integer "charge_code"
     t.integer "hours_worked"
     t.datetime "date"
+    t.integer "assignment_id"
+    t.string "work_group"
   end
 
   create_table "users", force: :cascade do |t|
